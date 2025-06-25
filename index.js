@@ -14,8 +14,17 @@ app.use(express.json());
 app.get('/', async (req, res) => {
     const allApartments = await Apartment.find();
 
+    const serviceIcons = {
+        'air-conditioning': '❄️',
+        'heat': '🔥',
+        'accessibility': '♿',
+        'kitchen': '🍽️',
+        'wi-fi': '📶'
+    };
+
     res.render('home.ejs', {
-        allApartments
+        allApartments,
+        serviceIcons
     });
 
 });
@@ -44,6 +53,7 @@ app.post('/admin/apartment', async (req, res) => {
             lng: Number(req.body['location.coordinates.lng'])
         }
     };
+    
 
     // Converteix a número
     rooms = Number(rooms);
