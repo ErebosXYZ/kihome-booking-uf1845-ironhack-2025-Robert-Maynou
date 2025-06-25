@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Añadir un nuevo apartamento</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+</head>
+
+<body>
+    <h1>Añade un apartamento</h1>
+    <form action="/admin/apartment" method="post" id="apartmentForm">
+        <label for="title">Título</label>
+        <input type="text" name="title" id="title" required maxlength="40">
+
+        <label for="description">Descripción del apartamento: </label>
+        <textarea name="description" id="description" required minlength="200" maxlength="1000"></textarea>
+
+        <label for="price">Precio por noche (€)</label>
+        <input type="number" name="price" id="price" required>
+
+        <label for="size">Superfície en m²</label>
+        <input type="number" name="size" id="size" required>
+
+        <div>
+            <label for="rooms">Habitaciones disponibles</label>
+            <input type="number" name="rooms" id="rooms">
+            <label for="beds">Camas disponibles</label>
+            <input type="number" name="beds" id="beds">
+            <label for="bathrooms">Cuartos de baño</label>
+            <input type="number" name="bathrooms" id="bathrooms">
+        </div>
+
+
+        <!-- <label for="mainPhoto">Enlace a una foto del apartamento</label>
+        <input type="url" name="mainPhoto" id="mainPhoto">
+        
+        <label for="photos"></label> -->
+        <h3>Fotos</h3>
+        <div id="photosContainer">
+            <!-- Els inputs es generaran amb JS -->
+        </div>
+
+        <button type="button" id="addPhotoBtn">Afegir Foto</button>
+        <br><br>
+
+        <div>
+            <h3>Servicios disponibles</h3>
+
+            <input type="checkbox" id="air-conditioning" name="services" value="air-conditioning">
+            <label for="air-conditioning"> Aire Acondicionado </label>
+
+            <input type="checkbox" id="heat" name="services" value="heat">
+            <label for="heat"> Calefacción </label>
+
+            <input type="checkbox" name="services" value="accessibility" id="accessibility">
+            <label for="accessibility"> Accesible para personas con movilidad reducida </label>
+
+            <input type="checkbox" name="services" value="kitchen" id="kitchen">
+            <label for="kitchen"> Cocina </label>
+
+            <input type="checkbox" name="services" value="wi-fi" id="wi-fi">
+            <label for="wi-fi"> Wi-Fi </label>
+
+        </div>
+
+        <div>
+            <h3>Ubicación del apartamento</h3>
+            <div id="map" style="height: 300px; margin-bottom: 1em;"></div>
+            <label for="province">Provincia:</label>
+            <input type="text" id="province" name="location.province" required>
+
+            <label for="city">Ciudad:</label>
+            <input type="text" id="city" name="location.city" required>
+
+            <label for="lat">Latitud:</label>
+            <input type="number" step="any" id="lat" name="location.coordinates.lat" required readonly>
+
+            <label for="lng">Longitud:</label>
+            <input type="number" step="any" id="lng" name="location.coordinates.lng" required readonly>
+        </div>
+
+
+
+        <button type="submit">Enviar</button>
+
+
+        <!-- To do: validacions
+         camps que falten -->
+    </form>
+
+    <script>
+        const photosContainer = document.getElementById('photosContainer');
+        const addPhotoBtn = document.getElementById('addPhotoBtn');
+        const form = document.getElementById('apartmentForm');
+
+        let photoCount = 0;
+
+        function addPhotoField() {
+            const group = document.createElement('div');
+            group.className = 'photo-group';
+
+            const input = document.createElement('input');
+            input.type = 'url';
+            input.name = 'photos';
+            input.placeholder = `URL de la foto ${photoCount + 1}`;
+            input.required = true;
+
+            const radio = document.createElement('input');
+            radio.type = 'radio';
+            radio.name = 'mainPhoto';
+            radio.value = photoCount;
+            if (photoCount === 0) radio.required = true;
+
+            const label = document.createElement('label');
+            label.textContent = 'Principal';
+            label.prepend(radio);
+
+            group.appendChild(input);
+            group.appendChild(label);
+            photosContainer.appendChild(group);
+
+            photoCount++;
+        }
+
+        addPhotoBtn.addEventListener('click', addPhotoField);
+
+        // Afegeix 4 fotos inicials per defecte
+        for (let i = 0; i < 4; i++) addPhotoField();
+
+        // Validació abans d'enviar
+        form.addEventListener('submit', (e) => {
+            const photoInputs = document.querySelectorAll('input[name="photos"]');
+            if (photoInputs.length < 4) {
+                e.preventDefault();
+                alert('Has d’introduir com a mínim 4 fotos.');
+            }
+        });
+    </script>
+    <script>
+        // Centra el mapa a Espanya per defecte
+        const map = L.map('map').setView([40.4168, -3.7038], 6);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        let marker;
+
+        // Quan l'usuari fa clic al mapa, actualitza els inputs
+        map.on('click', function (e) {
+            const { lat, lng } = e.latlng;
+            document.getElementById('lat').value = lat;
+            document.getElementById('lng').value = lng;
+
+            if (marker) {
+                marker.setLatLng(e.latlng);
+            } else {
+                marker = L.marker(e.latlng).addTo(map);
+            }
+        });
+
+        // Si vols, pots intentar obtenir la ubicació actual de l'usuari:
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                const lat = position.coords.latitude;
+                const lng = position.coords.longitude;
+                map.setView([lat, lng], 13);
+            });
+        }
+    </script>
+</body>
+
+</html>
