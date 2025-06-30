@@ -26,7 +26,25 @@ export const getApartmentById = async (req, res) => {
     };
 
 export const searchApartments = async (req, res) => {
+    const { minPeople, maxPrice, city } = req.query;
+    
+    // Creem un objecte que filtra els paràmetres segons les condicions que establim
+    const filter = {};
 
+    // Creem les condicions de filtratge
+    if (minPeople) filter.maxPeople = { $gte: Number(minPeople) };
+    if (maxPrice) filter.price = { $lte: Number(maxPrice) };
+    if (city) filter['location.city'] = { $regex: new RegExp(city, 'i') }
+
+    /**To do: filtrar per dates. Per això haig de tenir els apartaments reservats, és a dir crear l'apartat de reserves
+     * Crear vista filtered-apartments.ejs
+     */
+
+    // Creem l'objecte que contindrà els apartaments que compleixin les condicions de filter
+
+    const filteredApartments = await Apartment.find(filter);
+
+    res.render('filtered-apartments.ejs', { filteredApartments, serviceIcons });
 }
 
 /**

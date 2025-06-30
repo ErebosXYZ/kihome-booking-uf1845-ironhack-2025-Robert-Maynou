@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <%- include('partials/head'); %>
+
+</head>
+<body>
+    <header>        <%- include('partials/header'); %>
+</header>
+<h2>Resultados de la búsqueda</h2>
+<% if (filteredApartments.length === 0) { %>
+    <p>No se han encontrado apartamentos que cumplan estos criterios</p>
+<% } %>
+<% filteredApartments.forEach(function(apt) { %>
+    <article>
+        <h3><a href="/apartment/<%= apt._id %>"><%= apt.title %></a></h3>
+        <img src="<%= apt.mainPhoto %>" alt="<%= apt.title %>">
+        <p>Precio: <%= apt.price %> €</p>
+        <p>Ciudad: <%= apt.location.city %></p>
+        <p>Capacidad máxima: <%= apt.maxPeople %></p>
+    </article>
+<% }); %>
+<footer>
+        <%- include('partials/footer.ejs'); %>
+    </footer>
+</body>
+</html>

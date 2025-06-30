@@ -16,6 +16,33 @@
     <main class="container">
         <h1>Reserva ya tu apartamento en KiHome</h1>
         <section>
+            <h3>Buscar apartamentos</h3>
+            <form action="/search" method="GET">
+                <!-- 1. Capacidad del apartamento. Es decir, si somos 2 viajeros, mostrar los apartamentos que al menos tengan capacidad para 2 personas
+                2. Precio máximo por noche
+                3. Ciudad 
+                4. Fechas disponibles -->
+
+                <label for="minPeople">Número de viajeros</label>
+                <input type="number" name="minPeople" id="minPeople" min="1">
+
+                <label for="maxPrice">Precio máximo por noche</label>
+                <input type="number" name="maxPrice" id="maxPrice" min="1" max="100000">
+
+                <label for="city">Ciudad</label>
+                <input type="text" name="city" id="city">
+
+                <label for="startDate">Fecha de entrada</label>
+                <input type="date" name="startDate" id="startDate">
+
+                <label for="endDate">Fecha de salida</label>
+                <input type="date" name="endDate" id="endDate">
+
+                <button type="submit">Buscar</button>
+
+            </form>
+        </section>
+        <section>
             <% allApartments.forEach(function(apt) { %>
                 <article>
                     <header>
