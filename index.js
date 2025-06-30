@@ -35,6 +35,12 @@ app.get('/admin/apartment/new', (req, res) => {
 });
 
 
+/** To do:
+ * Enllaçar al detall de l'apartament per ID. Recuperar les dades de l'apartament que té la ID al backend. El frontend ja està preparat de la homepage està preparat.
+ * Simplement crear el .get per ID i fer que renderitzi una vista amb totes les dades de l'apartament
+ */
+
+
 app.post('/admin/apartment', async (req, res) => {
     console.log(req.body);
 

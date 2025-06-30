@@ -11,14 +11,20 @@
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 </head>
 
+
+<!-- To do:
+ Fer que apt.title sigui un enllaç al detall de l'apartament.-->
+
 <body>
     <main class="container">
-        <h1>Reserva ya tu apartamento en Brava Book</h1>
+        <h1>Reserva ya tu apartamento en KiHome</h1>
         <section>
             <% allApartments.forEach(function(apt) { %>
                 <article>
                     <header>
-                        <%= apt.title %>
+                        <a href="/apartments/<%= apt._id %>">
+                            <%= apt.title %>
+                        </a>
                     </header>
                     <img src="<%= apt.mainPhoto %>" alt="<%= apt.title %>">
                     <p>
