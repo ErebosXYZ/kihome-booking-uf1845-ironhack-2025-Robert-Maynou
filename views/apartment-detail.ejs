@@ -22,11 +22,17 @@
                     <p>
                         <%= apartment.description %>
                     </p>
+                    <p>Ciudad: <%= apartment.location.city %>
+                    </p>
+                    <p>Provincia: <%= apartment.location.province %>
+                    </p>
                     <p>Número de habitaciones: <%= apartment.rooms %>
                     </p>
                     <p>Camas disponibles: <%= apartment.beds %>
                     </p>
                     <p>Cuartos de baño: <%= apartment.bathrooms %>
+                    </p>
+                    <p>Número máximo de personas: <%= apartment.maxPeople %>
                     </p>
                     <p>Precio por noche: <%= apartment.price %>€</p>
                     <p>Superfície: <%= apartment.size %>m<sup>2</sup></p>
@@ -45,13 +51,31 @@
                             <span>No hay servicios disponibles.</span>
                             <% } %>
                                 <p>Ubicación: </p>
-
-                                <!-- Falta ubicació -->
+                                <div id="map" style="height: 300px; margin-bottom: 1em;"></div>
+                                <!-- Falta ubicació leaflet-->
         </main>
 
         <footer>
             <%- include('partials/footer'); %>
         </footer>
+
+        <script>
+            // Obté les coordenades de l'apartament des del backend
+            const lat = <%= apartment.location.coordinates.lat %>;
+            const lng = <%= apartment.location.coordinates.lng %>;
+
+            // Inicialitza el mapa centrat a la ubicació de l'apartament
+            const map = L.map('map').setView([lat, lng], 15);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+
+            // Afegeix un marcador a la ubicació
+            L.marker([lat, lng]).addTo(map)
+                .bindPopup('<%= apartment.title %>')
+                .openPopup();
+        </script>
 </body>
 
 </html>

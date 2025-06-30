@@ -7,7 +7,7 @@ export const getNewApartment = (req, res)=> {
 export const postNewApartment = async (req, res)=> {
    console.log(req.body);
 
-    let { title, description, rooms, beds, bathrooms, photos, mainPhoto, price, size, services } = req.body;
+    let { title, description, rooms, beds, bathrooms, photos, mainPhoto, price, size, services, maxPeople } = req.body;
 
     // Normalitza arrays
     if (!Array.isArray(photos)) photos = [photos];
@@ -30,6 +30,7 @@ export const postNewApartment = async (req, res)=> {
     bathrooms = Number(bathrooms);
     price = Number(price);
     size = Number(size);
+    maxPeople = Number(maxPeople);
 
     if (photos.length < 4) {
         return res.status(400).send('Com a mínim calen 4 fotos.');
@@ -47,6 +48,7 @@ export const postNewApartment = async (req, res)=> {
             rooms,
             beds,
             bathrooms,
+            maxPeople,
             photos,
             mainPhoto: photos[mainIndex],
             price,

@@ -56,6 +56,10 @@ const apartmentSchema = new Schema({
         type: Number,
         required: true
     },
+    maxPeople: {
+        type: Number,
+        required: true
+    },
     
     services: {
         type: [String],
