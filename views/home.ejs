@@ -2,20 +2,17 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KiHome Apartments</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
-
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <%- include('partials/head'); %>
 </head>
 
 
 <!-- To do:
- Fer que apt.title sigui un enllaç al detall de l'apartament.-->
+ Fer que apt.title sigui un enllaç al detall de l'apartament (server).-->
 
 <body>
+    <header>
+        <%- include('partials/header'); %>
+    </header>
     <main class="container">
         <h1>Reserva ya tu apartamento en KiHome</h1>
         <section>
@@ -49,6 +46,10 @@
 
         </section>
     </main>
+
+    <footer>
+        <%- include('partials/footer.ejs'); %>
+    </footer>
 </body>
 
 </html>

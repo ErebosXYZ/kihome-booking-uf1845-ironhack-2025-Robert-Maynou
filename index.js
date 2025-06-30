@@ -10,17 +10,19 @@ app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json());
 
-
-app.get('/', async (req, res) => {
-    const allApartments = await Apartment.find();
-
-    const serviceIcons = {
+ const serviceIcons = {
         'air-conditioning': '❄️',
         'heat': '🔥',
         'accessibility': '♿',
         'kitchen': '🍽️',
         'wi-fi': '📶'
     };
+
+
+app.get('/', async (req, res) => {
+    const allApartments = await Apartment.find();
+
+   
 
     res.render('home.ejs', {
         allApartments,
@@ -51,7 +53,7 @@ app.get('/apartment/:idApartment', async (req, res) => {
         return res.status(404).send('¡Lo sentimos! No hemos podido encotrar el apartamento no solicitado');
     }
 
-    res.render('apartment-detail.ejs', { apartment });
+    res.render('apartment-detail.ejs', { apartment, serviceIcons });
 })
 
 

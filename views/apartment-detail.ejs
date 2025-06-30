@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('partials/head'); %>
+</head>
+
+<body>
+    <%- include('partials/header'); %>
+
+        <main class="container">
+            <!--     let 
+             { title, description, rooms, beds, bathrooms, photos, mainPhoto, price, size, services } = req.body;
+         -->
+            <h1>
+                <%= apartment.title %>
+            </h1>
+            <img src="<%= apartment.mainPhoto %>" alt="<%= apartment.title %>">
+            <% apartment.photos.forEach(function(p) { %>
+                <img src="<%= p %>" alt="">
+                <% }) %>
+                    <p>
+                        <%= apartment.description %>
+                    </p>
+                    <p>Número de habitaciones: <%= apartment.rooms %>
+                    </p>
+                    <p>Camas disponibles: <%= apartment.beds %>
+                    </p>
+                    <p>Cuartos de baño: <%= apartment.bathrooms %>
+                    </p>
+                    <p>Precio por noche: <%= apartment.price %>€</p>
+                    <p>Superfície: <%= apartment.size %>m<sup>2</sup></p>
+                    <p>Servicios disponibles:</p>
+                    <% if (apartment.services && apartment.services.length> 0) { %>
+                        <ul>
+                            <% apartment.services.forEach(function(service) { %>
+                                <% if (serviceIcons[service]) { %>
+                                    <li>
+                                        <%= serviceIcons[service] %>
+                                    </li>
+                                    <% } %>
+                                        <% }); %>
+                        </ul>
+                        <% } else { %>
+                            <span>No hay servicios disponibles.</span>
+                            <% } %>
+                                <p>Ubicación: </p>
+
+                                <!-- Falta ubicació -->
+        </main>
+
+        <footer>
+            <%- include('partials/footer'); %>
+        </footer>
+</body>
+
+</html>
