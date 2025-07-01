@@ -16,27 +16,6 @@ app.use(indexRoutes);
 app.use('/admin', adminRoutes);
 
 
-
-// app.get('/', async (req, res) => {
-//     const allApartments = await Apartment.find();
-
-
-
-//     res.render('home.ejs', {
-//         allApartments,
-//         serviceIcons
-//     });
-
-// });
-
-
-
-
-
-
-
-
-
 connectDB().then(() => {
     app.listen(PORT, () => {
         console.log('Escuchando peticiones en el puerto http://localhost:3000')

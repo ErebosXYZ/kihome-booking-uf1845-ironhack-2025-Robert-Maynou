@@ -1,8 +1,9 @@
 import { Apartment } from '../models/Apartment.model.js';
+import { Reservation } from '../models/Reservation.model.js';
 import { serviceIcons } from '../tools/serviceIcons.js';
 
-export const getApartments = async (req, res)=> {
-  
+export const getApartments = async (req, res) => {
+
     const allApartments = await Apartment.find();
     console.log("🚀 ~ app.get ~ allApartments:", allApartments)
 
@@ -12,22 +13,22 @@ export const getApartments = async (req, res)=> {
 };
 
 export const getApartmentById = async (req, res) => {
-        const id = req.params.id;
-    
-        const apartment = await Apartment.findById(id);
-    
-        if (!apartment) {
-            return res.status(404).send('¡Lo sentimos! No hemos podido encotrar el apartamento no solicitado');
-        }
+    const id = req.params.id;
 
-        console.log("ID:", id, "Apartment:", apartment);
-    
-        res.render('apartment-detail.ejs', { apartment, serviceIcons });
-    };
+    const apartment = await Apartment.findById(id);
+
+    if (!apartment) {
+        return res.status(404).send('¡Lo sentimos! No hemos podido encotrar el apartamento no solicitado');
+    }
+
+    console.log("ID:", id, "Apartment:", apartment);
+
+    res.render('apartment-detail.ejs', { apartment, serviceIcons });
+};
 
 export const searchApartments = async (req, res) => {
     const { minPeople, maxPrice, city } = req.query;
-    
+
     // Creem un objecte que filtra els paràmetres segons les condicions que establim
     const filter = {};
 
@@ -47,9 +48,54 @@ export const searchApartments = async (req, res) => {
     res.render('filtered-apartments.ejs', { filteredApartments, serviceIcons });
 }
 
-/**
- * 1. Capacidad del apartamento. Es decir, si somos 2 viajeros, mostrar los apartamentos que al menos tengan capacidad para 2 personas
-2. Precio máximo por noche
-3. Ciudad 
-4. Fechas disponibles
- */
+export const bookApartment = async (req, res) => {
+    try {
+        // Recuperem les dades del formulari (falta l'username)
+        // Recuperar id de l'apartament gràcies a l'input hidden del formulari d'apartment-detail.ejs
+
+        const { apartmentId, checkIn, checkOut } = req.body;
+
+        // Validació de dates
+        if (new Date(checkOut) <= new Date(checkIn)) {
+            return res.status(400).json({ error: 'La fecha de salida debe ser posterior a la fecha de entrada' });
+        }
+        // Validació que no se solapi amb una altra reserva
+
+        const overlapping = await Reservation.findOne({
+            apartment: apartmentId,
+            $and: [
+                { checkIn: { $lt: new Date(checkOut) } },
+                { checkOut: { $gt: new Date(checkIn) } }
+            ]
+        });
+
+        if (overlapping) {
+            return res.status(409).json({ error: 'El apartamento ya está reservado en estas fechas' });
+        }
+        // També es podria calcular el nombre de nits i el preu total en funció del preu per nit
+
+        // Creació de la reserva. 
+
+        const newReservation = new Reservation({
+            apartment: apartmentId,
+            checkIn: checkIn,
+            checkOut: checkOut
+        });
+        await newReservation.save();
+        console.log(newReservation);
+        res.status(201).json(newReservation);
+
+        /**
+         * To do:
+         * 
+         * - En comptes de mostrar els errors com a JSON, que es mostrin a la vista
+         * 
+         * - Falta recuperar l'username un cop haguem implementat el registre d'usuaris
+         * 
+            - També es podria recuperar el preu i calcular-ne el total, així com mostrar-lo a la vista també
+         */
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Error creando la reserva.' })
+    }
+}

@@ -89,21 +89,4 @@ const apartmentSchema = new Schema({
 
 });
 
-/**-Qué servicios tiene
-   -Aire acondicionado
-   -Calefacción
-   -Si el edificio está adaptado para personas con movilidad reducida
-   -Televisión
-   -Cocina
-   -Conexión a Internet
--Ubicación del apartamento
-   -Provincia
-   -Ciudad 
-   -Coordenadas GPS */
-
-// Afegir les validacions corresponents quan haguem pogut inserir apartaments a la base de dades amb el formulari connectat a mongodb!!!
-
-
-// Creació del model i exportació (export substitueix a module exports)
-
 export const Apartment = model('Apartment', apartmentSchema);
