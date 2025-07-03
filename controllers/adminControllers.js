@@ -104,3 +104,12 @@ export const postEditApartment = async (req, res) => {
     res.redirect(`/apartment/${id}`)
 }
 
+export const deleteApartment = async (req, res) => {
+    const { id } = req.params;
+
+    console.log(id);
+
+    await Apartment.findByIdAndDelete(id);
+
+    res.redirect('/');
+}

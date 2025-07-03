@@ -13,7 +13,7 @@
 
 <body>
     <h1>Añade un apartamento</h1>
-        <form action="/admin/apartment/<%= editMode? apartment._id + "/edit" : "" %>" method="post" id="apartmentForm">
+        <form action="/admin/apartment/<%= editMode ? apartment._id + "/edit" : "" %>" method="post" id="apartmentForm">
     <label for="title">Título</label>
     <input type="text" name="title" id="title" required maxlength="40" value="<%= apartment.title || '' %>">
 
@@ -87,6 +87,44 @@
 
     <input type="submit" value="<%= editMode ? 'Actualizar' : 'Añadir' %>">
 </form>
+
+ <% if (editMode) { %>
+            <section id="modal">
+                <button class="contrast btn--danger" data-target="modal-example" onclick="toggleModal(event)">
+                    Eliminar Apartamento
+                </button>
+            </section>
+            <% } %>
+    </main>
+    <dialog id="modal-example">
+      <article>
+        <header>
+          <button
+            aria-label="Close"
+            rel="prev"
+            data-target="modal-example"
+            onclick="toggleModal(event)"
+          ></button>
+          <h3>¿Seguro que quieres eliminar el apartamento?</h3>
+        </header>
+        <p>
+            Los apartamentos eliminados no se pueden recuperar.
+        </p>
+        <footer style="display: flex;justify-content: space-between;">
+          <button
+            role="button"
+            class="secondary"
+            data-target="modal-example"
+            onclick="toggleModal(event)"
+          >
+            Cancel</button
+          >
+          <form action="/admin/apartment/<%= apartment._id %>/delete" method="post">
+          <input role="button" class="btn--danger" type="submit" value="Confirmar"></form>
+        </footer>
+      </article>
+    </dialog>
+    <script src="/modal.js"></script>
 
     <script>
         const photosContainer = document.getElementById('photosContainer');
