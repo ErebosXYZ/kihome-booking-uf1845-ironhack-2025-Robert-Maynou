@@ -13,6 +13,7 @@
             <h1>
                 <%= apartment.title %>
             </h1>
+            <a href="/admin/apartment/<%= apartment._id %>/edit">Editar</a>
             <img src="<%= apartment.mainPhoto %>" alt="<%= apartment.title %>">
             <% apartment.photos.forEach(function(p) { %>
                 <img src="<%= p %>" alt="">

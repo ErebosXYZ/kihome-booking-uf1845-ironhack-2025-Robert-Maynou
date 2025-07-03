@@ -1,7 +1,10 @@
 import { Apartment } from "../models/Apartment.model.js";
 
-export const getNewApartment = (req, res)=> {
-    res.render("add-apartment.ejs");
+export const getNewApartment = (req, res) => {
+    res.render("add-apartment.ejs", {
+        apartment: {},
+        editMode: false
+    });
 };
 
 export const postNewApartment = async (req, res)=> {
@@ -64,3 +67,40 @@ export const postNewApartment = async (req, res)=> {
         res.status(500).send('Ups! Algo ha ido mal. Hemos informado a los desarrolladores. Puedes volver a la página principal haciendo click <a href="/"> aquí </a>');
     }
 }
+
+export const getEditApartment = async (req, res) => {
+    // Recuperar doc per id
+    const { id } = req.params;
+
+    const apartment = await Apartment.findById(id);
+
+    res.render('add-apartment.ejs', {
+        apartment,
+        editMode: true
+    });
+}
+
+export const postEditApartment = async (req, res) => {
+    const id = req.params.id;
+
+    console.log(id);
+
+    await Apartment.findByIdAndUpdate(id, {
+        title: req.body.title,
+        description: req.body.description,
+        rooms: req.body.rooms,
+        beds: req.body.beds,
+        bathrooms: req.body.bathrooms,
+        maxPeople: req.body.maxPeople,
+        photos: req.body.photos,
+        mainPhoto: req.body.mainPhoto,
+        price: req.body.price,
+        squareMeters: req.body.size,
+        services: req.body.services,
+        location: req.body.location
+        
+    });
+
+    res.redirect(`/apartment/${id}`)
+}
+
