@@ -71,6 +71,8 @@ export const postNewApartment = async (req, res)=> {
 export const getEditApartment = async (req, res) => {
     // Recuperar doc per id
     const { id } = req.params;
+    
+    console.log(id)
 
     const apartment = await Apartment.findById(id);
 
@@ -81,9 +83,18 @@ export const getEditApartment = async (req, res) => {
 }
 
 export const postEditApartment = async (req, res) => {
-    const id = req.params.id;
+    const id = req.params.id.trim();
 
     console.log(id);
+
+    const location = {
+        province: req.body['location.province'],
+        city: req.body['location.city'],
+        coordinates: {
+            lat: Number(req.body['location.coordinates.lat']),
+            lng: Number(req.body['location.coordinates.lng'])
+        }
+    };
 
     await Apartment.findByIdAndUpdate(id, {
         title: req.body.title,
@@ -97,7 +108,7 @@ export const postEditApartment = async (req, res) => {
         price: req.body.price,
         squareMeters: req.body.size,
         services: req.body.services,
-        location: req.body.location
+        location
         
     });
 
@@ -105,7 +116,7 @@ export const postEditApartment = async (req, res) => {
 }
 
 export const deleteApartment = async (req, res) => {
-    const { id } = req.params;
+    const id = req.params.id.trim();
 
     console.log(id);
 

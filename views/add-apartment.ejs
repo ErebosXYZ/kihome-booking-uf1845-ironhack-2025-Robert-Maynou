@@ -13,199 +13,198 @@
 
 <body>
     <h1>Añade un apartamento</h1>
-        <form action="/admin/apartment/<%= editMode ? apartment._id + "/edit" : "" %>" method="post" id="apartmentForm">
-    <label for="title">Título</label>
-    <input type="text" name="title" id="title" required maxlength="40" value="<%= apartment.title || '' %>">
+    <form action="/admin/apartment/<%= editMode ? apartment._id + " /edit" : "" %>" method="post" id="apartmentForm">
+        <label for="title">Título</label>
+        <input type="text" name="title" id="title" required maxlength="40" value="<%= apartment.title || '' %>">
 
-    <label for="description">Descripción del apartamento: </label>
-    <textarea name="description" id="description" required minlength="200" maxlength="1000"><%= apartment.description || '' %></textarea>
+        <label for="description">Descripción del apartamento: </label>
+        <textarea name="description" id="description" required minlength="200"
+            maxlength="1000"><%= apartment.description || '' %></textarea>
 
-    <label for="price">Precio por noche (€)</label>
-    <input type="number" name="price" id="price" required value="<%= apartment.price || '' %>">
+        <label for="price">Precio por noche (€)</label>
+        <input type="number" name="price" id="price" required value="<%= apartment.price || '' %>">
 
-    <label for="size">Superfície en m²</label>
-    <input type="number" name="size" id="size" required value="<%= apartment.size || '' %>">
+        <label for="size">Superfície en m²</label>
+        <input type="number" name="size" id="size" required value="<%= apartment.size || '' %>">
 
-    <div>
-        <label for="rooms">Habitaciones disponibles</label>
-        <input type="number" name="rooms" id="rooms" value="<%= apartment.rooms || '' %>">
-        <label for="beds">Camas disponibles</label>
-        <input type="number" name="beds" id="beds" value="<%= apartment.beds || '' %>">
-        <label for="bathrooms">Cuartos de baño</label>
-        <input type="number" name="bathrooms" id="bathrooms" value="<%= apartment.bathrooms || '' %>">
-        <label for="maxPeople">Número máximo de personas</label>
-        <input type="number" name="maxPeople" id="maxPeople" value="<%= apartment.maxPeople || '' %>">
-    </div>
+        <div>
+            <label for="rooms">Habitaciones disponibles</label>
+            <input type="number" name="rooms" id="rooms" value="<%= apartment.rooms || '' %>">
+            <label for="beds">Camas disponibles</label>
+            <input type="number" name="beds" id="beds" value="<%= apartment.beds || '' %>">
+            <label for="bathrooms">Cuartos de baño</label>
+            <input type="number" name="bathrooms" id="bathrooms" value="<%= apartment.bathrooms || '' %>">
+            <label for="maxPeople">Número máximo de personas</label>
+            <input type="number" name="maxPeople" id="maxPeople" value="<%= apartment.maxPeople || '' %>">
+        </div>
 
-    <h3>Fotos</h3>
-    <div id="photosContainer">
-        <!-- Els inputs es generaran amb JS -->
-    </div>
+        <h3>Fotos</h3>
+        <div id="photosContainer">
+            <!-- Els inputs es generaran amb JS -->
+        </div>
 
-    <button type="button" id="addPhotoBtn">Afegir Foto</button>
-    <br><br>
+        <button type="button" id="addPhotoBtn">Afegir Foto</button>
+        <br><br>
 
-    <div>
-        <h3>Servicios disponibles</h3>
+        <div>
+            <h3>Servicios disponibles</h3>
 
-        <input type="checkbox" id="air-conditioning" name="services" value="air-conditioning"
-            <%= apartment.services && apartment.services.includes('air-conditioning') ? 'checked' : '' %>>
-        <label for="air-conditioning"> Aire Acondicionado </label>
+            <input type="checkbox" id="air-conditioning" name="services" value="air-conditioning" <%=apartment.services
+                && apartment.services.includes('air-conditioning') ? 'checked' : '' %>>
+            <label for="air-conditioning"> Aire Acondicionado </label>
 
-        <input type="checkbox" id="heat" name="services" value="heat"
-            <%= apartment.services && apartment.services.includes('heat') ? 'checked' : '' %>>
-        <label for="heat"> Calefacción </label>
+            <input type="checkbox" id="heat" name="services" value="heat" <%=apartment.services &&
+                apartment.services.includes('heat') ? 'checked' : '' %>>
+            <label for="heat"> Calefacción </label>
 
-        <input type="checkbox" name="services" value="accessibility" id="accessibility"
-            <%= apartment.services && apartment.services.includes('accessibility') ? 'checked' : '' %>>
-        <label for="accessibility"> Accesible para personas con movilidad reducida </label>
+            <input type="checkbox" name="services" value="accessibility" id="accessibility" <%=apartment.services &&
+                apartment.services.includes('accessibility') ? 'checked' : '' %>>
+            <label for="accessibility"> Accesible para personas con movilidad reducida </label>
 
-        <input type="checkbox" name="services" value="kitchen" id="kitchen"
-            <%= apartment.services && apartment.services.includes('kitchen') ? 'checked' : '' %>>
-        <label for="kitchen"> Cocina </label>
+            <input type="checkbox" name="services" value="kitchen" id="kitchen" <%=apartment.services &&
+                apartment.services.includes('kitchen') ? 'checked' : '' %>>
+            <label for="kitchen"> Cocina </label>
 
-        <input type="checkbox" name="services" value="wi-fi" id="wi-fi"
-            <%= apartment.services && apartment.services.includes('wi-fi') ? 'checked' : '' %>>
-        <label for="wi-fi"> Wi-Fi </label>
-    </div>
+            <input type="checkbox" name="services" value="wi-fi" id="wi-fi" <%=apartment.services &&
+                apartment.services.includes('wi-fi') ? 'checked' : '' %>>
+            <label for="wi-fi"> Wi-Fi </label>
+        </div>
 
-    <div>
-        <h3>Ubicación del apartamento</h3>
-        <div id="map" style="height: 300px; margin-bottom: 1em;"></div>
-        <label for="province">Provincia:</label>
-        <input type="text" id="province" name="location.province" required value="<%= apartment.location ? apartment.location.province : '' %>">
+        <div>
+            <h3>Ubicación del apartamento</h3>
+            <div id="map" style="height: 300px; margin-bottom: 1em;"></div>
+            <label for="province">Provincia:</label>
+            <input type="text" id="province" name="location.province" required
+                value="<%= apartment.location ? apartment.location.province : '' %>">
 
-        <label for="city">Ciudad:</label>
-        <input type="text" id="city" name="location.city" required value="<%= apartment.location ? apartment.location.city : '' %>">
+            <label for="city">Ciudad:</label>
+            <input type="text" id="city" name="location.city" required
+                value="<%= apartment.location ? apartment.location.city : '' %>">
 
-        <label for="lat">Latitud:</label>
-        <input type="number" step="any" id="lat" name="location.coordinates.lat" required readonly value="<%= apartment.location && apartment.location.coordinates ? apartment.location.coordinates.lat : '' %>">
+            <label for="lat">Latitud:</label>
+            <input type="number" step="any" id="lat" name="location.coordinates.lat" required readonly
+                value="<%= apartment.location && apartment.location.coordinates ? apartment.location.coordinates.lat : '' %>">
 
-        <label for="lng">Longitud:</label>
-        <input type="number" step="any" id="lng" name="location.coordinates.lng" required readonly value="<%= apartment.location && apartment.location.coordinates ? apartment.location.coordinates.lng : '' %>">
-    </div>
+            <label for="lng">Longitud:</label>
+            <input type="number" step="any" id="lng" name="location.coordinates.lng" required readonly
+                value="<%= apartment.location && apartment.location.coordinates ? apartment.location.coordinates.lng : '' %>">
+        </div>
 
-    <input type="submit" value="<%= editMode ? 'Actualizar' : 'Añadir' %>">
-</form>
+        <input type="submit" value="<%= editMode ? 'Actualizar' : 'Añadir' %>">
+    </form>
 
- <% if (editMode) { %>
-            <section id="modal">
-                <button class="contrast btn--danger" data-target="modal-example" onclick="toggleModal(event)">
-                    Eliminar Apartamento
-                </button>
-            </section>
-            <% } %>
-    </main>
-    <dialog id="modal-example">
-      <article>
-        <header>
-          <button
-            aria-label="Close"
-            rel="prev"
-            data-target="modal-example"
-            onclick="toggleModal(event)"
-          ></button>
-          <h3>¿Seguro que quieres eliminar el apartamento?</h3>
-        </header>
-        <p>
-            Los apartamentos eliminados no se pueden recuperar.
-        </p>
-        <footer style="display: flex;justify-content: space-between;">
-          <button
-            role="button"
-            class="secondary"
-            data-target="modal-example"
-            onclick="toggleModal(event)"
-          >
-            Cancel</button
-          >
-          <form action="/admin/apartment/<%= apartment._id %>/delete" method="post">
-          <input role="button" class="btn--danger" type="submit" value="Confirmar"></form>
-        </footer>
-      </article>
-    </dialog>
-    <script src="/modal.js"></script>
+    <% if (editMode) { %>
+        <section id="modal">
+            <button class="contrast btn--danger" data-target="modal-example" onclick="toggleModal(event)">
+                Eliminar Apartamento
+            </button>
+        </section>
+        <% } %>
+            </main>
+            <dialog id="modal-example">
+                <article>
+                    <header>
+                        <button aria-label="Close" rel="prev" data-target="modal-example"
+                            onclick="toggleModal(event)"></button>
+                        <h3>¿Seguro que quieres eliminar el apartamento?</h3>
+                    </header>
+                    <p>
+                        Los apartamentos eliminados no se pueden recuperar.
+                    </p>
+                    <footer style="display: flex;justify-content: space-between;">
+                        <button role="button" class="secondary" data-target="modal-example"
+                            onclick="toggleModal(event)">
+                            Cancel</button>
+                        <form action="/admin/apartment/<%= apartment._id %>/delete" method="post">
+                            <input role="button" class="btn--danger" type="submit" value="Confirmar">
+                        </form>
+                    </footer>
+                </article>
+            </dialog>
 
-    <script>
-        const photosContainer = document.getElementById('photosContainer');
-        const addPhotoBtn = document.getElementById('addPhotoBtn');
-        const form = document.getElementById('apartmentForm');
 
-        let photoCount = 0;
+            <script>
+                const photosContainer = document.getElementById('photosContainer');
+                const addPhotoBtn = document.getElementById('addPhotoBtn');
+                const form = document.getElementById('apartmentForm');
 
-        function addPhotoField() {
-            const group = document.createElement('div');
-            group.className = 'photo-group';
+                let photoCount = 0;
 
-            const input = document.createElement('input');
-            input.type = 'url';
-            input.name = 'photos';
-            input.placeholder = `URL de la foto ${photoCount + 1}`;
-            input.required = true;
+                function addPhotoField() {
+                    const group = document.createElement('div');
+                    group.className = 'photo-group';
 
-            const radio = document.createElement('input');
-            radio.type = 'radio';
-            radio.name = 'mainPhoto';
-            radio.value = photoCount;
-            if (photoCount === 0) radio.required = true;
+                    const input = document.createElement('input');
+                    input.type = 'url';
+                    input.name = 'photos';
+                    input.placeholder = `URL de la foto ${photoCount + 1}`;
+                    input.required = true;
 
-            const label = document.createElement('label');
-            label.textContent = 'Principal';
-            label.prepend(radio);
+                    const radio = document.createElement('input');
+                    radio.type = 'radio';
+                    radio.name = 'mainPhoto';
+                    radio.value = photoCount;
+                    if (photoCount === 0) radio.required = true;
 
-            group.appendChild(input);
-            group.appendChild(label);
-            photosContainer.appendChild(group);
+                    const label = document.createElement('label');
+                    label.textContent = 'Principal';
+                    label.prepend(radio);
 
-            photoCount++;
-        }
+                    group.appendChild(input);
+                    group.appendChild(label);
+                    photosContainer.appendChild(group);
 
-        addPhotoBtn.addEventListener('click', addPhotoField);
+                    photoCount++;
+                }
 
-        // Afegeix 4 fotos inicials per defecte
-        for (let i = 0; i < 4; i++) addPhotoField();
+                addPhotoBtn.addEventListener('click', addPhotoField);
 
-        // Validació abans d'enviar
-        form.addEventListener('submit', (e) => {
-            const photoInputs = document.querySelectorAll('input[name="photos"]');
-            if (photoInputs.length < 4) {
-                e.preventDefault();
-                alert('Has d’introduir com a mínim 4 fotos.');
-            }
-        });
-    </script>
-    <script>
-        // Centra el mapa a Espanya per defecte
-        const map = L.map('map').setView([40.4168, -3.7038], 6);
+                // Afegeix 4 fotos inicials per defecte
+                for (let i = 0; i < 4; i++) addPhotoField();
 
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap contributors'
-        }).addTo(map);
+                // Validació abans d'enviar
+                form.addEventListener('submit', (e) => {
+                    const photoInputs = document.querySelectorAll('input[name="photos"]');
+                    if (photoInputs.length < 4) {
+                        e.preventDefault();
+                        alert('Has d’introduir com a mínim 4 fotos.');
+                    }
+                });
+            </script>
+            <script>
+                // Centra el mapa a Espanya per defecte
+                const map = L.map('map').setView([40.4168, -3.7038], 6);
 
-        let marker;
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '© OpenStreetMap contributors'
+                }).addTo(map);
 
-        // Quan l'usuari fa clic al mapa, actualitza els inputs
-        map.on('click', function (e) {
-            const { lat, lng } = e.latlng;
-            document.getElementById('lat').value = lat;
-            document.getElementById('lng').value = lng;
+                let marker;
 
-            if (marker) {
-                marker.setLatLng(e.latlng);
-            } else {
-                marker = L.marker(e.latlng).addTo(map);
-            }
-        });
+                // Quan l'usuari fa clic al mapa, actualitza els inputs
+                map.on('click', function (e) {
+                    const { lat, lng } = e.latlng;
+                    document.getElementById('lat').value = lat;
+                    document.getElementById('lng').value = lng;
 
-        // Si vols, pots intentar obtenir la ubicació actual de l'usuari:
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function (position) {
-                const lat = position.coords.latitude;
-                const lng = position.coords.longitude;
-                map.setView([lat, lng], 13);
-            });
-        }
-    </script>
+                    if (marker) {
+                        marker.setLatLng(e.latlng);
+                    } else {
+                        marker = L.marker(e.latlng).addTo(map);
+                    }
+                });
+
+                // Si vols, pots intentar obtenir la ubicació actual de l'usuari:
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(function (position) {
+                        const lat = position.coords.latitude;
+                        const lng = position.coords.longitude;
+                        map.setView([lat, lng], 13);
+                    });
+                }
+            </script>
+            <script src="/modal.js"></script>
+
 </body>
 
 </html>

@@ -54,6 +54,7 @@ export const bookApartment = async (req, res) => {
         // Recuperar id de l'apartament gràcies a l'input hidden del formulari d'apartment-detail.ejs
 
         const { apartmentId, checkIn, checkOut } = req.body;
+        console.log('apartmentId recibido:', apartmentId);
 
         // Validació de dates
         if (new Date(checkOut) <= new Date(checkIn)) {
