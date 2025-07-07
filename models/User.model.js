@@ -1,10 +1,12 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 
+const { Schema, model } = mongoose;
+
 
 // Falta validar que sigui un email 
 
-const userSchema = new mongoose.Schema({
+const userSchema = new Schema({
   username: { type: String, required: true, unique: true },
   password: { type: String, required: true, validate: {
         validator: function (value) {
@@ -28,4 +30,4 @@ userSchema.methods.comparePassword = function(candidatePassword) {
   return bcrypt.compare(candidatePassword, this.password);
 };
 
-export default mongoose.model('User', userSchema);
+export const User = model('User', userSchema);

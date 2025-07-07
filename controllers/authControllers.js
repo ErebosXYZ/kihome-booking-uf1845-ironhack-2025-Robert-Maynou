@@ -1,4 +1,4 @@
-import User from '../models/User.model.js';
+import { User } from '../models/User.model.js'
 import passport from 'passport';
 
 export const renderRegister = (req, res) => res.render('register.ejs');
