@@ -6,6 +6,7 @@ import { Apartment } from './models/Apartment.model.js';
 import indexRoutes  from './routes/indexRoutes.js'; 
 import adminRoutes from './routes/adminRoutes.js';
 import session from 'express-session';
+import flash from 'express-flash';
 import passport from 'passport';
 import authRoutes from './routes/authRoutes.js';
 import './config/passport.js';
@@ -21,6 +22,7 @@ app.use('/admin', adminRoutes);
 app.use(express.static('public'));
 
 app.use(session({ secret: process.env.SESSION_SECRET, resave: false, saveUninitialized: false }));
+app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(authRoutes);

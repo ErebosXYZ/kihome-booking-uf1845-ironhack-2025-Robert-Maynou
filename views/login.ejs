@@ -10,9 +10,9 @@
 <body>
     <main class="container">
         <h1>Iniciar sesión</h1>
-        <% if (typeof error !=='undefined' ) { %>
+        <% if (messages.error) { %>
             <div class="error">
-                <%= error %>
+                <%= messages.error %>
             </div>
             <% } %>
                 <% if (messages.success) { %>
