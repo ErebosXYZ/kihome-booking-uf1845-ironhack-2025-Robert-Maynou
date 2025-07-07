@@ -1,6 +1,6 @@
 import passport from 'passport';
 import LocalStrategy from 'passport-local';
-import User from '../models/User.model.js';
+import { User } from '../models/User.model.js';
 
 passport.use(new LocalStrategy(
   async (username, password, done) => {
@@ -17,3 +17,4 @@ passport.deserializeUser(async (id, done) => {
   const user = await User.findById(id);
   done(null, user);
 });
+
