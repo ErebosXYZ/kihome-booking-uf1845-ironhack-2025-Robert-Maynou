@@ -58,7 +58,7 @@
                         <%= apt.squareMeters %> <sup>2</sup>
                     </p>
                     <% if (apt.services && apt.services.length> 0) { %>
-                        <ul>
+                        <ul class="no-bullets">
                             <% apt.services.forEach(function(service) { %>
                                 <% if (serviceIcons[service]) { %>
                                     <li>

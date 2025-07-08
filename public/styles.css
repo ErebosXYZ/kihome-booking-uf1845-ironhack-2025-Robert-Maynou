@@ -2,3 +2,26 @@
     color : white;
     background-color: rgb(229, 13, 13);
 }
+
+ul.no-bullets {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+
+ul.no-bullets,
+ul.no-bullets li {
+  list-style: none !important;
+  padding-left: 0 !important;
+  margin-left: 0 !important;
+}
+
+ul.no-bullets li::marker {
+  content: none !important;
+  display: none !important;
+}
+
+ul.no-bullets li::before {
+  content: none !important;
+  display: none !important;
+}

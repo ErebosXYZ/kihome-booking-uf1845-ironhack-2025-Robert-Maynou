@@ -47,7 +47,7 @@
                     <p>Superfície: <%= apartment.size %>m<sup>2</sup></p>
                     <p>Servicios disponibles:</p>
                     <% if (apartment.services && apartment.services.length> 0) { %>
-                        <ul>
+                        <ul class="no-bullets">
                             <% apartment.services.forEach(function(service) { %>
                                 <% if (serviceIcons[service]) { %>
                                     <li>
