@@ -1,5 +1,6 @@
 import { User } from '../models/User.model.js'
 import passport from 'passport';
+import { checkAdminKey } from '../config/checkAdminKey.js'
 
 
 export const renderRegister = (req, res) => res.render('register.ejs');
@@ -7,14 +8,29 @@ export const renderLogin = (req, res) => res.render('login.ejs', { messages: req
 
 export const register = async (req, res) => {
   try {
-    const { username, password, email } = req.body;
-    await User.create({ username, password, email });
-    console.log({ username, password, email })
+    const { username, password, email, role, admin_key } = req.body;
+
+    // Comprovació clau només si vol registrar-se com admin
+    if (role === 'admin') {
+      if (!checkAdminKey(admin_key)) {
+        return res.render('register.ejs', {
+          error: 'Clave de administrador incorrecta',
+        });
+      }
+    }
+
+    // Crear usuari (sigui del rol que sigui)
+    await User.create({ username, password, email, role });
+
+    console.log({ username, password, email, role });
+
     req.flash('success', 'Usuario registrado correctamente');
     res.redirect('/login');
   } catch (err) {
-    console.error(err)
-    res.render('register.ejs', { error: 'Error al registrar el usuario' });
+    console.error(err);
+    res.render('register.ejs', {
+      error: 'Error al registrar el usuario',
+    });
   }
 };
 

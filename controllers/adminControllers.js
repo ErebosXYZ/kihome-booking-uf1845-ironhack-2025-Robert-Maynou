@@ -1,14 +1,16 @@
+
 import { Apartment } from "../models/Apartment.model.js";
 import { Reservation } from "../models/Reservation.model.js";
+import { isAdmin } from "../config/isAdmin.js";
 
-export const getNewApartment = (req, res) => {
+export const getNewApartment = [isAdmin, (req, res) => {
     res.render("add-apartment.ejs", {
         apartment: {},
         editMode: false
     });
-};
+}];
 
-export const postNewApartment = async (req, res)=> {
+export const postNewApartment = [isAdmin, async (req, res)=> {
    console.log(req.body);
 
     let { title, description, rooms, beds, bathrooms, photos, mainPhoto, price, size, services, maxPeople } = req.body;
@@ -67,9 +69,9 @@ export const postNewApartment = async (req, res)=> {
         console.error(error);
         res.status(500).send('Ups! Algo ha ido mal. Hemos informado a los desarrolladores. Puedes volver a la página principal haciendo click <a href="/"> aquí </a>');
     }
-}
+}]
 
-export const getEditApartment = async (req, res) => {
+export const getEditApartment = [isAdmin, async (req, res) => {
     // Recuperar doc per id
     const { id } = req.params;
     
@@ -81,9 +83,9 @@ export const getEditApartment = async (req, res) => {
         apartment,
         editMode: true
     });
-}
+}]
 
-export const postEditApartment = async (req, res) => {
+export const postEditApartment = [isAdmin, async (req, res) => {
     const id = req.params.id.trim();
 
     console.log(id);
@@ -114,9 +116,9 @@ export const postEditApartment = async (req, res) => {
     });
 
     res.redirect(`/apartment/${id}`)
-}
+}]
 
-export const deleteApartment = async (req, res) => {
+export const deleteApartment = [isAdmin, async (req, res) => {
     const id = req.params.id.trim();
 
     console.log(id);
@@ -124,13 +126,13 @@ export const deleteApartment = async (req, res) => {
     await Apartment.findByIdAndDelete(id);
 
     res.redirect('/');
-};
+}];
 
-export const showAllReservations = async (req, res) => {
+export const showAllReservations = [isAdmin, async (req, res) => {
     try {
         const reservations = await Reservation.find().populate('apartment');
         res.render('reservations.ejs', { reservations })
     } catch (error){
         res.status(500).send('Error al obtener las reservas');
     }
-}
+}]

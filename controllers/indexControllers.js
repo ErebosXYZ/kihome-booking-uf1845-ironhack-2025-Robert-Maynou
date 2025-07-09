@@ -53,8 +53,8 @@ export const bookApartment = async (req, res) => {
         // Recuperem les dades del formulari (falta l'username)
         // Recuperar id de l'apartament gràcies a l'input hidden del formulari d'apartment-detail.ejs
 
-        const { apartmentId, checkIn, checkOut } = req.body;
-        console.log('apartmentId recibido:', apartmentId);
+        const { apartment, checkIn, checkOut } = req.body;
+        console.log('apartmentId recibido:', apartment);
 
         // Validació de dates
         if (new Date(checkOut) <= new Date(checkIn)) {
@@ -63,7 +63,7 @@ export const bookApartment = async (req, res) => {
         // Validació que no se solapi amb una altra reserva
 
         const overlapping = await Reservation.findOne({
-            apartment: apartmentId,
+            apartment: apartment,
             $and: [
                 { checkIn: { $lt: new Date(checkOut) } },
                 { checkOut: { $gt: new Date(checkIn) } }
@@ -78,7 +78,7 @@ export const bookApartment = async (req, res) => {
         // Creació de la reserva. 
 
         const newReservation = new Reservation({
-            apartment: apartmentId,
+            apartment: apartment,
             checkIn: checkIn,
             checkOut: checkOut
         });
