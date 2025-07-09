@@ -20,11 +20,11 @@
                 <% }) %>
                 <div>
                     <form action="/apartment/new-reservation" method="POST">
-                        <input type="hidden" name="apartmentId" value="<%= apartment._id %>">
+                        <input type="hidden" name="apartment" value="<%= apartment._id %>">
                         <label for="checkIn">Fecha de entrada</label>
-                        <input type="date" name="checkIn" id="checkIn">
+                        <input type="date" name="checkIn" id="checkIn" required>
                         <label for="checkOut">Fecha de salida</label>
-                        <input type="date" name="checkOut" id="checkOut">
+                        <input type="date" name="checkOut" id="checkOut" required>
                         <input type="submit" value="Reservar">
                     </form>
                 </div>

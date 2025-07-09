@@ -1,0 +1,34 @@
+<head>
+    <%- include('partials/head'); %>
+</head>
+
+<body>
+    <%- include('partials/header'); %>
+    <h1>Listado de reservas</h1>
+    <table>
+  <thead>
+    <tr>
+      <th>Apartamento</th>
+      <th>Localidad</th>
+      <th>Precio por noche</th>
+      <th>Check-in</th>
+      <th>Check-out</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% reservations.forEach(reservation => { %>
+      <tr>
+        <td><%= reservation.apartment?.title %></td>
+        <td><%= reservation.apartment?.location?.city %></td>
+        <td><%= reservation.apartment?.price %> €</td>
+        <td><%= new Date(reservation.checkIn).toLocaleDateString() %></td>
+        <td><%= new Date(reservation.checkOut).toLocaleDateString() %></td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>
+</body>
+
+<footer>
+    <%- include('partials/footer'); %>
+</footer>

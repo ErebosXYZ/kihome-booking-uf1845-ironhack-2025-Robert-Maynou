@@ -128,7 +128,8 @@ export const deleteApartment = async (req, res) => {
 
 export const showAllReservations = async (req, res) => {
     try {
-        const reservations = Reservation.findById().populate('Apartment');
+        const reservations = await Reservation.find().populate('apartment');
+        res.render('reservations.ejs', { reservations })
     } catch (error){
         res.status(500).send('Error al obtener las reservas');
     }
