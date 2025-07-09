@@ -1,0 +1,36 @@
+<head>
+    <%- include('partials/head'); %>
+</head>
+
+<body>
+    <%- include('partials/header'); %>
+    <h1>Listado de reservas</h1>
+    <table>
+    <thead>
+      <tr>
+        <th>Apartment</th>
+        <th>Check-in</th>
+        <th>Check-out</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% reservations.forEach(function(reservation) { %>
+        <tr>
+          <td>
+            <% if (reservation.apartment && reservation.apartment.name) { %>
+              <%= reservation.apartment.name %>
+            <% } else { %>
+              <%= reservation.apartment %>
+            <% } %>
+          </td>
+          <td><%= new Date(reservation.checkIn).toLocaleDateString() %></td>
+          <td><%= new Date(reservation.checkOut).toLocaleDateString() %></td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</body>
+
+<footer>
+    <%- include('partials/footer'); %>
+</footer>

@@ -1,4 +1,5 @@
 import { Apartment } from "../models/Apartment.model.js";
+import { Reservation } from "../models/Reservation.model.js";
 
 export const getNewApartment = (req, res) => {
     res.render("add-apartment.ejs", {
@@ -123,4 +124,12 @@ export const deleteApartment = async (req, res) => {
     await Apartment.findByIdAndDelete(id);
 
     res.redirect('/');
+};
+
+export const showAllReservations = async (req, res) => {
+    try {
+        const reservations = Reservation.findById().populate('Apartment');
+    } catch (error){
+        res.status(500).send('Error al obtener las reservas');
+    }
 }
