@@ -5,7 +5,6 @@ import { serviceIcons } from '../tools/serviceIcons.js';
 export const getApartments = async (req, res) => {
 
     const allApartments = await Apartment.find();
-    console.log("🚀 ~ app.get ~ allApartments:", allApartments)
 
     res.render('home.ejs', {
         allApartments, serviceIcons

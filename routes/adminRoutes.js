@@ -1,21 +1,20 @@
 import express from 'express';
-// import checkAdminKey from '../config/checkAdminKey.js';
 import { deleteApartment, getEditApartment, getNewApartment, postEditApartment, postNewApartment, showAllReservations } from '../controllers/adminControllers.js';
+import { isAdmin } from '../middleware/isAdmin.js';
 const router = express.Router();
 
-// router.use(checkAdminKey);
 
-router.get("/apartment/new", getNewApartment);
+router.get("/apartment/new", isAdmin, getNewApartment);
 
-router.post("/apartment", postNewApartment);
+router.post("/apartment", isAdmin, postNewApartment);
 
-router.get("/apartment/:id/edit", getEditApartment);
+router.get("/apartment/:id/edit", isAdmin, getEditApartment);
 
-router.post("/apartment/:id/edit", postEditApartment);
+router.post("/apartment/:id/edit", isAdmin, postEditApartment);
 
-router.post("/apartment/:id/delete", deleteApartment);
+router.post("/apartment/:id/delete", isAdmin, deleteApartment);
 
-router.get("/reservations", showAllReservations);
+router.get("/reservations", isAdmin, showAllReservations);
 
 
 export default router;

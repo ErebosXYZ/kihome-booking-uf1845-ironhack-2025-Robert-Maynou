@@ -1,7 +1,7 @@
 
 import { Apartment } from "../models/Apartment.model.js";
 import { Reservation } from "../models/Reservation.model.js";
-import { isAdmin } from "../config/isAdmin.js";
+import { isAdmin } from "../middleware/isAdmin.js";
 
 export const getNewApartment = [isAdmin, (req, res) => {
     res.render("add-apartment.ejs", {

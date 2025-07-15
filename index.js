@@ -9,23 +9,37 @@ import session from 'express-session';
 import flash from 'express-flash';
 import passport from 'passport';
 import authRoutes from './routes/authRoutes.js';
-import './config/passport.js';
+import './middleware/passport.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 app.set('view engine', 'ejs');
 
-app.use(express.urlencoded({ extended: true }))
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(indexRoutes);
-app.use('/admin', adminRoutes);
+
+// 🔹 Serveix fitxers estàtics
 app.use(express.static('public'));
 
-app.use(session({ secret: process.env.SESSION_SECRET, resave: false, saveUninitialized: false }));
+// 🔹 Sessions i Passport abans de les rutes!
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false
+}));
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
+app.use((req, res, next) => {
+  res.locals.user = req.user || null;
+  next();
+});
+
+// 🔹 Finalment, les rutes
+app.use(indexRoutes);
 app.use(authRoutes);
+app.use('/admin', adminRoutes);
+
 
 
 connectDB().then(() => {

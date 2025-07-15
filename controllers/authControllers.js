@@ -1,6 +1,6 @@
 import { User } from '../models/User.model.js'
 import passport from 'passport';
-import { checkAdminKey } from '../config/checkAdminKey.js'
+import { checkAdminKey } from '../middleware/checkAdminKey.js'
 
 
 export const renderRegister = (req, res) => res.render('register.ejs');
