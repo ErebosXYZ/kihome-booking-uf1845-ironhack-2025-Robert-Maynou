@@ -36,7 +36,7 @@ app.use((req, res, next) => {
 });
 
 // 🔹 Finalment, les rutes
-app.use(indexRoutes);
+app.use('/', indexRoutes);
 app.use(authRoutes);
 app.use('/admin', adminRoutes);
 

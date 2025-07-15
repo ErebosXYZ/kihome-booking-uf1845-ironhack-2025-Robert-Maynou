@@ -1,6 +1,7 @@
 import express from 'express';
 import { deleteApartment, getEditApartment, getNewApartment, postEditApartment, postNewApartment, showAllReservations } from '../controllers/adminControllers.js';
 import { isAdmin } from '../middleware/isAdmin.js';
+import { getApartmentById } from '../controllers/indexControllers.js';
 const router = express.Router();
 
 

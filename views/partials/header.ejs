@@ -2,17 +2,26 @@
   <a href="/">KiHome Booking</a>
   <ul>
     <li>
-      <% if (user && user.role === 'admin') { %>
-  <a href="/apartment/new">Añadir apartamento</a>
-<% } %>
+      <% if (user && user.role==='admin' ) { %>
+        <a href="admin/apartment/new">Añadir apartamento</a>
+        <% } %>
     </li>
     <li>
-      <a  href="/login">Iniciar sesión</a>
+      <% if (user) { %>
+        <form action="/logout" method="POST" style="display:inline;">
+          <button type="submit" class="btn--danger">Cerrar sesión</button>
+        </form>
+        <% } %>
     </li>
-    <li>
-      <a href="/register">Registrarse</a>
-    </li>
-    
+    <% if (!user) { %>
+      <li>
+        <a href="/login">Iniciar sesión</a>
+      </li>
+      <li>
+        <a href="/register">Registrarse</a>
+      </li>
+      <% } %>
+
   </ul>
 </nav>
 
