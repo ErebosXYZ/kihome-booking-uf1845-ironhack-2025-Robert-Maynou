@@ -26,6 +26,9 @@
 </head>
 
 <body>
+    <header>
+        <a href="/">Página principal</a>
+    </header>
     <main class="container">
         <h1>Registro de usuario</h1>
         <% if (typeof error !=='undefined' ) { %>
@@ -60,6 +63,10 @@
                 </form>
                 <p>¿Ya tienes cuenta? <a href="/login">Inicia sesión</a></p>
     </main>
+
+    <footer>
+                    <%- include('partials/footer.ejs'); %>
+                </footer>
 </body>
 
 </html>

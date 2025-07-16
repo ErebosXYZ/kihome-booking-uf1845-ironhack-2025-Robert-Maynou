@@ -12,9 +12,10 @@
 <body>
     <header>
         <%- include('partials/header'); %>
-    
+    </header>
                 <main class="container">
-                    <h1>Reserva ya tu apartamento en KiHome</h1>
+                    
+                    <h1>Reserva ya tu apartamento en KiHome Booking</h1>
                     <section>
                         <h3>Buscar apartamentos</h3>
                         <form action="/search" method="GET">
@@ -42,6 +43,7 @@
 
                         </form>
                     </section>
+                  
                     <section>
                         <% allApartments.forEach(function(apt) { %>
                             <article>

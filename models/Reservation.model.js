@@ -14,6 +14,15 @@ const reservationSchema = new Schema({
         ref: 'Apartment',
         required: true
     },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    },
+    username: {
+        type: String,
+        required: true
+    },
     checkIn: {
         type: Date,
         required: true
@@ -22,7 +31,7 @@ const reservationSchema = new Schema({
         type: Date,
         required: true,
         validate: {
-            validator: function(value) {
+            validator: function (value) {
                 return value > this.checkIn
             },
             message: 'La fecha de salida debe ser posterior a la de entrada.'

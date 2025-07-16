@@ -13,7 +13,9 @@
             <h1>
                 <%= apartment.title %>
             </h1>
+            <% if (user && user.role == 'admin') { %> 
             <a href="/admin/apartment/<%= apartment._id %>/edit">Editar</a>
+            <% } %>
             <img src="<%= apartment.mainPhoto %>" alt="<%= apartment.title %>">
             <% apartment.photos.forEach(function(p) { %>
                 <img src="<%= p %>" alt="">

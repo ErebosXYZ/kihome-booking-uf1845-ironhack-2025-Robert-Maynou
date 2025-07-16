@@ -49,18 +49,31 @@ export const searchApartments = async (req, res) => {
 
 export const bookApartment = async (req, res) => {
     try {
-        // Recuperem les dades del formulari (falta l'username)
-        // Recuperar id de l'apartament gràcies a l'input hidden del formulari d'apartment-detail.ejs
-
         const { apartment, checkIn, checkOut } = req.body;
         console.log('apartmentId recibido:', apartment);
 
+        // Obtenim l'usuari autenticat
+        if (!req.user) {
+            return res.status(401).json({ error: 'Debes iniciar sesión para hacer la reserva' });
+        }
+        const userId = req.user._id; // referència a l’usuari
+        const username = req.user.username; // 👈 aquí tens el nom d’usuari actual
+
+        console.log('Usuari autenticat:', username);
+
+        const now = new Date();
+        if (new Date(checkIn) < now) {
+              return res.status(400).json({ error: '¡Aún no se ha inventando la máquina del tiempo! La fecha de entrada debería ser anterior a hoy' });
+
+        }
         // Validació de dates
         if (new Date(checkOut) <= new Date(checkIn)) {
-            return res.status(400).json({ error: 'La fecha de salida debe ser posterior a la fecha de entrada' });
+            return res
+                .status(400)
+                .json({ error: 'La fecha de salida debe ser posterior a la fecha de entrada' });
         }
-        // Validació que no se solapi amb una altra reserva
 
+        // Validació que no se solapi amb una altra reserva
         const overlapping = await Reservation.findOne({
             apartment: apartment,
             $and: [
@@ -70,32 +83,28 @@ export const bookApartment = async (req, res) => {
         });
 
         if (overlapping) {
-            return res.status(409).json({ error: 'El apartamento ya está reservado en estas fechas' });
+            return res
+                .status(409)
+                .json({ error: 'El apartamento ya está reservado en estas fechas' });
         }
-        // També es podria calcular el nombre de nits i el preu total en funció del preu per nit
 
-        // Creació de la reserva. 
-
+        // Creació de la reserva
         const newReservation = new Reservation({
             apartment: apartment,
+            user: userId, // referència al camp 'user' del schema
+            username: username,
             checkIn: checkIn,
             checkOut: checkOut
         });
+
         await newReservation.save();
-        console.log(newReservation);
+        console.log('Reserva creada:', newReservation);
+
         res.status(201).json(newReservation);
 
-        /**
-         * To do:
-         * 
-         * - En comptes de mostrar els errors com a JSON, que es mostrin a la vista
-         * 
-         * - Falta recuperar l'username un cop haguem implementat el registre d'usuaris
-         * 
-            - També es podria recuperar el preu i calcular-ne el total, així com mostrar-lo a la vista també
-         */
+        // TODO: mostrar errors a la vista EJS i no com JSON, calcular preu total, etc.
     } catch (err) {
         console.error(err);
-        res.status(500).json({ error: 'Error creando la reserva.' })
+        res.status(500).json({ error: 'Error creant la reserva.' });
     }
-}
+};
