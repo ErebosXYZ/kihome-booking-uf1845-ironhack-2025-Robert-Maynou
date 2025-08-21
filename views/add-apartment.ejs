@@ -5,14 +5,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Añadir un nuevo apartamento</title>
+        <link rel="icon" href="/icons/kihome_favicon.ico" type="image/x-icon">
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pselect.js@4.0.1/dist/pselect.min.js"></script>
+
 </head>
 
-<body>
-    <h1>Añade un apartamento</h1>
+<body style="margin: 1vw;">
+    <header>
+        <nav>
+            <ul>
+                <li>
+                    <a href="/">Página de inicio</a>
+
+                </li>
+                <li>
+                    <a href="/admin/reservations">Ver listado de reservas</a>
+
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <main style="width: 95vw; height: auto;">
+        <h1>Añade un apartamento</h1>
     <form action="/admin/apartment/<%= editMode ? apartment._id + " /edit" : "" %>" method="post" id="apartmentForm">
         <label for="title">Título</label>
         <input type="text" name="title" id="title" required maxlength="40" value="<%= apartment.title || '' %>">
@@ -43,7 +62,7 @@
             <!-- Els inputs es generaran amb JS -->
         </div>
 
-        <button type="button" id="addPhotoBtn">Afegir Foto</button>
+        <button type="button" id="addPhotoBtn">Añadir Foto</button>
         <br><br>
 
         <div>
@@ -72,14 +91,21 @@
 
         <div>
             <h3>Ubicación del apartamento</h3>
+            <!-- Falta implementar el selector de ciutat segons la provincia. Ens carregaríem els inputs tipus text i fariem selects amb Pselect. El valor que ha d'enviar, però, ha de ser string. -->
             <div id="map" style="height: 300px; margin-bottom: 1em;"></div>
             <label for="province">Provincia:</label>
-            <input type="text" id="province" name="location.province" required
-                value="<%= apartment.location ? apartment.location.province : '' %>">
+            <!-- Select de provincias -->
+            <select id="province" name="location.province.id" required
+                value="<%= apartment.location ? apartment.location.province : '' %>"></select>
+            <!-- Select de municipios -->
+
 
             <label for="city">Ciudad:</label>
-            <input type="text" id="city" name="location.city" required
-                value="<%= apartment.location ? apartment.location.city : '' %>">
+            <select id="city" name="location.city.id" required
+                value="<%= apartment.location ? apartment.location.city : '' %>"></select>
+
+            <input type="hidden" id="provinceNm" name="location.province.nm" value="">
+            <input type="hidden" id="cityNm" name="location.city.nm" value="">
 
             <label for="lat">Latitud:</label>
             <input type="number" step="any" id="lat" name="location.coordinates.lat" required readonly
@@ -122,6 +148,8 @@
                 </article>
             </dialog>
 
+    </main>
+    
 
             <script>
                 const photosContainer = document.getElementById('photosContainer');
@@ -169,6 +197,42 @@
                         e.preventDefault();
                         alert('Has d’introduir com a mínim 4 fotos.');
                     }
+                });
+            </script>
+            <script>
+                var prov = document.getElementById('province');
+                var mun = document.getElementById('city');
+
+                new Pselect().create(prov, mun);
+
+                // Inputs ocults per guardar els noms
+                var provinceNmInput = document.getElementById('provinceNm');
+                var cityNmInput = document.getElementById('cityNm');
+
+                // Funció per actualitzar el nom del select
+                function updateProvinceNm() {
+                    var selectedOption = prov.options[prov.selectedIndex];
+                    provinceNmInput.value = selectedOption ? selectedOption.text : '';
+                }
+
+                function updateCityNm() {
+                    var selectedOption = mun.options[mun.selectedIndex];
+                    cityNmInput.value = selectedOption ? selectedOption.text : '';
+                }
+
+                // Afegim listeners per actualitzar al canvi
+                prov.addEventListener('change', () => {
+                    updateProvinceNm();
+                    // Quan canvia la província, el selector de ciutat canvia, així que actualitza també la ciutat
+                    updateCityNm();
+                });
+
+                mun.addEventListener('change', updateCityNm);
+
+                // Inicialitzem els valors en carregar la pàgina
+                window.addEventListener('load', () => {
+                    updateProvinceNm();
+                    updateCityNm();
                 });
             </script>
             <script>

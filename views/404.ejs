@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <%- include('partials/head'); %>
+</head>
+<body>
+    <header>
+        <header>
+        <%- include('partials/header'); %>
+    </header>
+    </header>
+  <div class="error-container">
+    <h1>404</h1>
+    <p><%= message || "La página que buscas no existe o ha sido movida." %></p>
+    <a href="/" class="btn">Volver a la página principal</a>
+  </div>
+</body>
+</html>

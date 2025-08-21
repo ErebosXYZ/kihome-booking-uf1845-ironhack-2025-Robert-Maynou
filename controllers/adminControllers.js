@@ -21,13 +21,19 @@ export const postNewApartment = [isAdmin, async (req, res)=> {
 
     // Construeix location manualment
     const location = {
-        province: req.body['location.province'],
-        city: req.body['location.city'],
-        coordinates: {
-            lat: Number(req.body['location.coordinates.lat']),
-            lng: Number(req.body['location.coordinates.lng'])
-        }
-    };
+    province: {
+        id: req.body['location.province.id'],
+        nm: req.body['location.province.nm']
+    },
+    city: {
+        id: req.body['location.city.id'],
+        nm: req.body['location.city.nm']
+    },
+    coordinates: {
+        lat: Number(req.body['location.coordinates.lat']),
+        lng: Number(req.body['location.coordinates.lng'])
+    }
+};
 
 
     // Converteix a número

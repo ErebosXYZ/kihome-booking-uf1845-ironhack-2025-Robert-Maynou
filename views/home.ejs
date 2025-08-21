@@ -13,78 +13,91 @@
     <header>
         <%- include('partials/header'); %>
     </header>
-                <main class="container">
-                    
-                    <h1>Reserva ya tu apartamento en KiHome Booking</h1>
-                    <section>
-                        <h3>Buscar apartamentos</h3>
-                        <form action="/search" method="GET">
-                            <!-- 1. Capacidad del apartamento. Es decir, si somos 2 viajeros, mostrar los apartamentos que al menos tengan capacidad para 2 personas
+    <main class="container">
+
+        <h1>Reserva ya tu apartamento en KiHome Booking</h1>
+        <% if (success && success.length> 0) { %>
+            <div class="alert alert-success">
+                <%= success[0] %>
+            </div>
+            <% } %>
+
+                <% if (error && error.length> 0) { %>
+                    <div class="alert alert-danger">
+                        <%= error[0] %>
+                    </div>
+                    <% } %>
+                        <section>
+                            <h3>Buscar apartamentos</h3>
+                            <form action="/search" method="GET">
+                                <!-- 1. Capacidad del apartamento. Es decir, si somos 2 viajeros, mostrar los apartamentos que al menos tengan capacidad para 2 personas
                 2. Precio máximo por noche
-                3. Ciudad 
+                3. Ciudad --------- TO DO: Selector de ciutat per província (Pselect).
                 4. Fechas disponibles -->
 
-                            <label for="minPeople">Número de viajeros</label>
-                            <input type="number" name="minPeople" id="minPeople" min="1">
+                                <label for="minPeople">Número de viajeros</label>
+                                <input type="number" name="minPeople" id="minPeople" min="1">
 
-                            <label for="maxPrice">Precio máximo por noche</label>
-                            <input type="number" name="maxPrice" id="maxPrice" min="1" max="100000">
+                                <label for="maxPrice">Precio máximo por noche</label>
+                                <input type="number" name="maxPrice" id="maxPrice" min="1" max="100000">
 
-                            <label for="city">Ciudad</label>
-                            <input type="text" name="city" id="city">
+                                <label for="city">Ciudad</label>
+                                <input type="text" name="city" id="city">
 
-                            <label for="startDate">Fecha de entrada</label>
-                            <input type="date" name="startDate" id="startDate">
+                                <!-- Faltaria que en comptes de ser un label fossin dos selectors, un de província i un altre que genera la llista de ciutats en funció d'aquesta. Els paràmetres que envia, però són strings -->
 
-                            <label for="endDate">Fecha de salida</label>
-                            <input type="date" name="endDate" id="endDate">
+                                <label for="startDate">Fecha de entrada</label>
+                                <input type="date" name="startDate" id="startDate">
 
-                            <button type="submit">Buscar</button>
+                                <label for="endDate">Fecha de salida</label>
+                                <input type="date" name="endDate" id="endDate">
 
-                        </form>
-                    </section>
-                  
-                    <section>
-                        <% allApartments.forEach(function(apt) { %>
-                            <article>
-                                <header>
-                                    <a href="/apartment/<%= apt._id %>">
-                                        <%= apt.title %>
-                                    </a>
-                                </header>
-                                <img src="<%= apt.mainPhoto %>" alt="<%= apt.title %>">
-                                <p>
-                                    <%= apt.price %> €
-                                </p>
-                                <p>
-                                    <%= apt.squareMeters %> <sup>2</sup>
-                                </p>
-                                <% if (apt.services && apt.services.length> 0) { %>
-                                    <ul class="no-bullets">
-                                        <% apt.services.forEach(function(service) { %>
-                                            <% if (serviceIcons[service]) { %>
-                                                <li>
-                                                    <%- serviceIcons[service] %>
-                                                </li>
+                                <button type="submit">Buscar</button>
+
+                            </form>
+                        </section>
+
+                        <section>
+                            <% allApartments.forEach(function(apt) { %>
+                                <article>
+                                    <header>
+                                        <a href="/apartment/<%= apt._id %>">
+                                            <%= apt.title %>
+                                        </a>
+                                    </header>
+                                    <img src="<%= apt.mainPhoto %>" alt="<%= apt.title %>">
+                                    <p>
+                                        <%= apt.price %> €
+                                    </p>
+                                    <p>
+                                        <%= apt.squareMeters %> <sup>2</sup>
+                                    </p>
+                                    <% if (apt.services && apt.services.length> 0) { %>
+                                        <ul class="no-bullets">
+                                            <% apt.services.forEach(function(service) { %>
+                                                <% if (serviceIcons[service]) { %>
+                                                    <li>
+                                                        <%- serviceIcons[service] %>
+                                                    </li>
+                                                    <% } %>
+                                                        <% }); %>
+                                        </ul>
+
+                                        <% } %>
+
+                                            <% if (user && user.role==='admin' ) { %>
+                                                <a class="edit-button" href="admin/apartment/<%= apt._id %>/edit">Editar
+                                                    apartamento</a>
                                                 <% } %>
-                                                    <% }); %>
-                                    </ul>
+                                </article>
+                                <% }); %>
 
-                                    <% } %>
+                        </section>
+    </main>
 
-                                        <% if (user && user.role==='admin' ) { %>
-                                            <a class="edit-button" href="admin/apartment/<%= apt._id %>/edit">Editar
-                                                apartamento</a>
-                                            <% } %>
-                            </article>
-                            <% }); %>
-
-                    </section>
-                </main>
-
-                <footer>
-                    <%- include('partials/footer.ejs'); %>
-                </footer>
+    <footer>
+        <%- include('partials/footer.ejs'); %>
+    </footer>
 </body>
 
 </html>

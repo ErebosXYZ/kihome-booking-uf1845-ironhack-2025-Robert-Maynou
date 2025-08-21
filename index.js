@@ -41,9 +41,18 @@ app.use(session({
   },
   rolling: true
 }));
+
 app.use(flash());
+
+app.use((req, res, next) => {
+  res.locals.success = req.flash('success'); // array de missatges d’èxit
+  res.locals.error = req.flash('error');     // array de missatges d’error
+  next();
+});
+
 app.use(passport.initialize());
 app.use(passport.session());
+
 app.use((req, res, next) => {
   res.locals.user = req.user || null;
   next();
@@ -53,6 +62,14 @@ app.use((req, res, next) => {
 app.use('/', indexRoutes);
 app.use(authRoutes);
 app.use('/admin', adminRoutes);
+
+// Middleware errors
+
+app.use((req, res) => {
+  res.status(404).render('404.ejs', {
+    message: 'La página que buscas no existe.',
+  });
+});
 
 
 

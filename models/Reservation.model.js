@@ -6,7 +6,6 @@ import mongoose from "mongoose";
 const { Schema, model } = mongoose;
 
 
-// To-do: falta implementar registre d'usuari, un cop fet posar el camp username: 'string'
 
 const reservationSchema = new Schema({
     apartment: {

@@ -68,12 +68,22 @@ const apartmentSchema = new Schema({
     },
     location: {
         province: {
-            type: String,
-            required: true
+            id: {
+                name: { type: String, required: true }
+            },
+            nm: {
+                name: { type: String, required: true }
+            }
+            
+            
         },
         city: {
-            type: String,
-            required: true
+            id: {
+                name: { type: String, required: true }
+            },
+            nm: {
+                name: { type: String, required: true }
+            }
         },
         coordinates: {
             lat: {

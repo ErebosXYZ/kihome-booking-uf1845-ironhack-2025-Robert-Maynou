@@ -4,7 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Registro de usuario</title>
+    <link rel="icon" href="/icons/kihome_favicon.ico" type="image/x-icon">
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <link rel="stylesheet" href="/styles.css">
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const roleSelect = document.getElementById("role");
@@ -26,7 +29,7 @@
 </head>
 
 <body>
-    <header>
+    <header style="margin: 2vw;">
         <a href="/">Página principal</a>
     </header>
     <main class="container">
@@ -57,6 +60,8 @@
                         <label for="admin_key">Clave de administrador</label>
                         <input type="password" id="admin_key" name="admin_key"
                             placeholder="Introduce la clave de administrador">
+                        <p class="btn--danger">La clave de administrador (disponible temporalmente) es:
+                            3GgMnzj9DL2XBQ@N7CQowN</p>
                     </div>
 
                     <button type="submit">Registrarse</button>
@@ -65,8 +70,8 @@
     </main>
 
     <footer>
-                    <%- include('partials/footer.ejs'); %>
-                </footer>
+        <%- include('partials/footer.ejs'); %>
+    </footer>
 </body>
 
 </html>

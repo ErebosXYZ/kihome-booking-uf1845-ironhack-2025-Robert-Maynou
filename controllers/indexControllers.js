@@ -12,17 +12,19 @@ export const getApartments = async (req, res) => {
 };
 
 export const getApartmentById = async (req, res) => {
-    const id = req.params.id;
+  const id = req.params.id;
 
-    const apartment = await Apartment.findById(id);
+  const apartment = await Apartment.findById(id);
 
-    if (!apartment) {
-        return res.status(404).send('¡Lo sentimos! No hemos podido encotrar el apartamento no solicitado');
-    }
+  if (!apartment) {
+    return res.status(404).render("404.ejs", {
+      message: "¡Lo sentimos! No hemos podido encontrar el apartamento solicitado.",
+    });
+  }
 
-    console.log("ID:", id, "Apartment:", apartment);
+  console.log(`ID: ${id}, apartment: ${apartment}`)
 
-    res.render('apartment-detail.ejs', { apartment, serviceIcons });
+  res.render("apartment-detail.ejs", { apartment, serviceIcons });
 };
 
 export const searchApartments = async (req, res) => {
@@ -54,23 +56,24 @@ export const bookApartment = async (req, res) => {
 
         // Obtenim l'usuari autenticat
         if (!req.user) {
-            return res.status(401).json({ error: 'Debes iniciar sesión para hacer la reserva' });
+            req.flash('error', 'Debes iniciar la sesión para hacer la reserva') 
+            return res.redirect('/login')
         }
-        const userId = req.user._id; // referència a l’usuari
-        const username = req.user.username; // 👈 aquí tens el nom d’usuari actual
+        const userId = req.user._id;
+        const username = req.user.username;
 
-        console.log('Usuari autenticat:', username);
+        console.log(`Username: ${username}, id: ${userId}`);
 
         const now = new Date();
         if (new Date(checkIn) < now) {
-              return res.status(400).json({ error: '¡Aún no se ha inventando la máquina del tiempo! La fecha de entrada debería ser anterior a hoy' });
+            req.flash('error', 'Para poder procesar correctamente la reserva la fecha de entrada debe ser posterior a hoy' )
+            return res.redirect('/');
 
         }
         // Validació de dates
         if (new Date(checkOut) <= new Date(checkIn)) {
-            return res
-                .status(400)
-                .json({ error: 'La fecha de salida debe ser posterior a la fecha de entrada' });
+            req.flash('error', 'La fecha de salida debe ser posterior a la fecha de entrada' )
+            return res.redirect('/')
         }
 
         // Validació que no se solapi amb una altra reserva
@@ -83,9 +86,8 @@ export const bookApartment = async (req, res) => {
         });
 
         if (overlapping) {
-            return res
-                .status(409)
-                .json({ error: 'El apartamento ya está reservado en estas fechas' });
+            req.flash('error', 'El apartamento ya está reservado en estas fechas');
+            return res.redirect('/');
         }
 
         // Creació de la reserva
@@ -100,11 +102,12 @@ export const bookApartment = async (req, res) => {
         await newReservation.save();
         console.log('Reserva creada:', newReservation);
 
-        res.status(201).json(newReservation);
+        req.flash('success', 'Reserva completada con éxito');
+        res.redirect('/');
 
-        // TODO: mostrar errors a la vista EJS i no com JSON, calcular preu total, etc.
     } catch (err) {
         console.error(err);
-        res.status(500).json({ error: 'Error creant la reserva.' });
+        req.flash('error', 'Error creando la reserva.');
+        res.redirect('/');
     }
 };
