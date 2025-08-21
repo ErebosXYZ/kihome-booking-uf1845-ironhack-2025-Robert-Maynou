@@ -10,8 +10,8 @@ export const getNewApartment = [isAdmin, (req, res) => {
     });
 }];
 
-export const postNewApartment = [isAdmin, async (req, res)=> {
-   console.log(req.body);
+export const postNewApartment = [isAdmin, async (req, res) => {
+    console.log(req.body);
 
     let { title, description, rooms, beds, bathrooms, photos, mainPhoto, price, size, services, maxPeople } = req.body;
 
@@ -21,19 +21,20 @@ export const postNewApartment = [isAdmin, async (req, res)=> {
 
     // Construeix location manualment
     const location = {
-    province: {
-        id: req.body['location.province.id'],
-        nm: req.body['location.province.nm']
-    },
-    city: {
-        id: req.body['location.city.id'],
-        nm: req.body['location.city.nm']
-    },
-    coordinates: {
-        lat: Number(req.body['location.coordinates.lat']),
-        lng: Number(req.body['location.coordinates.lng'])
-    }
-};
+        province: {
+            id: req.body['location.province.id'],
+            nm: req.body['location.province.nm']
+        },
+        city: {
+            id: req.body['location.city.id'],
+            nm: req.body['location.city.nm']
+        },
+        coordinates: {
+            lat: Number(req.body['location.coordinates.lat']),
+            lng: Number(req.body['location.coordinates.lng'])
+        }
+    };
+
 
 
     // Converteix a número
@@ -68,19 +69,20 @@ export const postNewApartment = [isAdmin, async (req, res)=> {
             services,
             location
         });
-
-        res.send('Apartamento insertado correctamente! Puedes volver a la página principal haciendo click <a href="/"> aquí </a>.');
+        req.flash('success', 'Apartamento insertado correctamente!')
+        res.redirect('/');
     }
     catch (error) {
         console.error(error);
-        res.status(500).send('Ups! Algo ha ido mal. Hemos informado a los desarrolladores. Puedes volver a la página principal haciendo click <a href="/"> aquí </a>');
+        req.flash('error', 'Ups! Algo ha ido mal. Hemos informado a los desarrolladores.')
+        res.render('/')
     }
 }]
 
 export const getEditApartment = [isAdmin, async (req, res) => {
     // Recuperar doc per id
     const { id } = req.params;
-    
+
     console.log(id)
 
     const apartment = await Apartment.findById(id);
@@ -118,7 +120,7 @@ export const postEditApartment = [isAdmin, async (req, res) => {
         squareMeters: req.body.size,
         services: req.body.services,
         location
-        
+
     });
 
     res.redirect(`/apartment/${id}`)
@@ -136,9 +138,13 @@ export const deleteApartment = [isAdmin, async (req, res) => {
 
 export const showAllReservations = [isAdmin, async (req, res) => {
     try {
-        const reservations = await Reservation.find().populate('apartment');
+        const reservations = await Reservation.find().populate({
+            path: "apartment",
+            select: "title price location",
+        });
+        console.log(reservations)
         res.render('reservations.ejs', { reservations })
-    } catch (error){
+    } catch (error) {
         res.status(500).send('Error al obtener las reservas');
     }
 }]

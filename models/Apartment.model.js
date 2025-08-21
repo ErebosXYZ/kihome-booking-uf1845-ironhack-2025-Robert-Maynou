@@ -60,7 +60,7 @@ const apartmentSchema = new Schema({
         type: Number,
         required: true
     },
-    
+
     services: {
         type: [String],
         enum: ['air-conditioning', 'heat', 'accessibility', 'kitchen', 'wi-fi'],
@@ -68,34 +68,19 @@ const apartmentSchema = new Schema({
     },
     location: {
         province: {
-            id: {
-                name: { type: String, required: true }
-            },
-            nm: {
-                name: { type: String, required: true }
-            }
-            
-            
+            id: { type: String, required: true },
+            nm: { type: String, required: true }
         },
         city: {
-            id: {
-                name: { type: String, required: true }
-            },
-            nm: {
-                name: { type: String, required: true }
-            }
+            id: { type: String, required: true },
+            nm: { type: String, required: true }
         },
         coordinates: {
-            lat: {
-                type: Number,
-                required: true
-            },
-            lng: {
-                type: Number,
-                required: true
-            }
+            lat: { type: Number, required: true },
+            lng: { type: Number, required: true }
         }
-    },
+    }
+
 
     // owner: {
     //     type: Schema.Types.ObjectId,

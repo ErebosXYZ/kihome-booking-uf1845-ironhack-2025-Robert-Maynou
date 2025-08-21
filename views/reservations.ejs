@@ -4,7 +4,7 @@
 
 <body>
     <%- include('partials/header'); %>
-    <h1>Listado de reservas</h1>
+    <h1 style="margin: 2vw">Listado de reservas</h1>
     <table>
   <thead>
     <tr>
@@ -19,7 +19,7 @@
     <% reservations.forEach(reservation => { %>
       <tr>
         <td><%= reservation.apartment?.title %></td>
-        <td><%= reservation.apartment?.location?.city %></td>
+        <td><%= reservation.apartment?.location?.city.nm%></td>
         <td><%= reservation.apartment?.price %> €</td>
         <td><%= new Date(reservation.checkIn).toLocaleDateString() %></td>
         <td><%= new Date(reservation.checkOut).toLocaleDateString() %></td>
